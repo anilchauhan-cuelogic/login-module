@@ -8,6 +8,7 @@ var userSchema = new Mongoose.Schema({
 	name:      {    type: String,   required: true },
     email:     {    type: String,   required: true, index: { unique: true } },
     password:  {    type: String,   required: true },
+    authToken:  {    type: String,   required: false, default: null },
     creationDate: { type: Date,     required: true, default: Date.now },
 });
 

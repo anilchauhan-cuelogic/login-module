@@ -1,5 +1,11 @@
 var Joi = require('joi');  
 var User = require('../models/user').User;
+var jwt = require('jsonwebtoken');
+var Config = require('./../config');
+
+var userFunctions = require('../utils/user');
+
+var privateKey = Config.key.privateKey;
 
 exports.register = {
     validate: {
@@ -11,21 +17,12 @@ exports.register = {
         }
     },
     handler: function(request, reply) {
+        
+        userFunctions.saveUserDetails(request, function(err, message){
 
-        //create new model
-        var user = new User({
-            name: request.payload.fname + ' ' +request.payload.lname,
-            email: request.payload.email,
-            password: request.payload.password});
+            if(err) throw err;
 
-        //save model to MongoDB
-        user.save(function (err) {
-            if (err) {
-                return err;
-            }
-            else {
-                reply("User registered successfully");
-            }
+            reply(message);
         });
     }
 }
@@ -56,8 +53,19 @@ exports.login = {
                     if (err) throw err; 
 
                     if(isMatch){
-                        reply(user);
-                        return;
+
+                        var token = jwt.sign({'userId' : user._id}, privateKey);
+                        User.findOneAndUpdate({"_id": user._id}, {
+                            $set: {
+                                "authToken": token
+                            }
+                        }, function(err, user){
+                            if(err) reply("Token not set");
+
+                            delete user.password;
+                            reply(user);
+                        })
+                        
                     } else {
                         reply("Invalid password");
                     }
@@ -80,3 +88,10 @@ exports.userList = {
         });
     }
 }
+
+// exports.getUser = {
+//     auth: 'token',
+//     handler: function (request, reply) {
+//         return reply(request.auth.credentials);
+//     }
+// }

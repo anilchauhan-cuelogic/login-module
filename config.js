@@ -9,5 +9,8 @@ module.exports = {
         db: 'authdb',
         username: '',
         password: ''
+    },
+    key:{
+        privateKey: 'ghfhgf$%09667^&^$%dfnbvcbcb'
     }
 };

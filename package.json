@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "description": "1st node project",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anilchauhan-cuelogic/login-module.git"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha",
     "start": "node index.js"
   },
   "author": "Anil Chauhan",
@@ -13,11 +17,14 @@
     "hapi": "~8.8.0",
     "joi": "~6.6.1",
     "mongoose": "~4.1.0",
-    "bcrypt": "~0.8.4"
+    "bcrypt": "~0.8.4",
+    "hapi-auth-jwt": "^2.1.2",
+    "jsonwebtoken": "^5.0.1"
   },
   "devDependencies": {
     "mocha": "~2.2.5",
     "chai": "~3.2.0",
-    "sinon": "~1.15.4"
+    "sinon": "~1.15.4",
+    "supertest": "^0.15.0"
   }
 }
