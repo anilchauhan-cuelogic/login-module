@@ -1,10 +1,6 @@
 var User = require('../models/user').User;
 
-module.exports = {
-	saveUserDetails : saveUserDetails
-};
-
-function saveUserDetails(request, callback) {
+module.exports.saveUserDetails = function saveUserDetails(request, callback) {
 
 	User.find({'email': request.payload.email}, function(err, users) {
 
@@ -25,8 +21,8 @@ function saveUserDetails(request, callback) {
 		user.save(function (err) {
 
 			if (err) callback(err);
-
-			callback(null, "User registered successfully");
+			
+			callback(null, {'id': user._id, 'email': user.email, 'fname': request.payload.fname, 'lname': request.payload.lname});
 
 		});
 	});

@@ -13,16 +13,15 @@ exports.register = {
             fname: Joi.string().min(3).max(25).required(),
             lname: Joi.string(),
             email: Joi.string().email().required(),
-            password: Joi.string().required()
+            password: Joi.string().min(6).max(15).required()
         }
     },
     handler: function(request, reply) {
         
-        userFunctions.saveUserDetails(request, function(err, message){
+        userFunctions.saveUserDetails(request, function(err, user){
 
             if(err) throw err;
-
-            reply(message);
+            reply(user);
         });
     }
 }

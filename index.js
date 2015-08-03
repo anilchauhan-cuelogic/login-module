@@ -49,3 +49,5 @@ server.start(function () {
 
 server.route(Routes.endpoints);
 
+module.exports.server = server;
+
